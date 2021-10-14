@@ -26,7 +26,7 @@ function getTitleFromSlug()
 function wait_for_database {
     count=$(expr 0)
 
-    until wp db check --quiet
+    until wp db reset --yes
     do
     count=$(expr $count + 1)
 
@@ -45,12 +45,12 @@ source ~/.bashrc
 # cd /var/www/html/wp-content/${PROJECT_TYPE}s/${SLUG}/
 # npm i && npm run build
 
-wait_for_database
-
 # Install WordPress and activate the plugin/theme.
 cd /var/www/html/
+
+wait_for_database
+
 echo "Setting up WordPress at $SITE_HOST"
-wp db reset --yes
 wp core install --url="$SITE_HOST" --title="Twenty Twenty-Two Development" --admin_user="admin" --admin_email="admin@example.com" --admin_password="password" --skip-email
 
 echo "Install and activate Gutenberg"
