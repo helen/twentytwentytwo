@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 SLUG=twentytwentytwo
 PROJECT_TYPE=theme
