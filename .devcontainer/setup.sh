@@ -35,5 +35,8 @@ echo "Setting up WordPress at $SITE_HOST"
 wp db reset --yes
 wp core install --url="$SITE_HOST" --title="Twenty Twenty-Two Development" --admin_user="admin" --admin_email="admin@example.com" --admin_password="password" --skip-email
 
+echo "Install and activate Gutenberg"
+wp plugin install gutenberg --activate
+
 echo "Activate $SLUG"
 wp $PROJECT_TYPE activate $SLUG
