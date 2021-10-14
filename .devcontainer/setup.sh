@@ -23,10 +23,12 @@ function getTitleFromSlug()
     echo "${___slug[@]^}"
 }
 
-function wait_for_database {
+function try_setup {
     count=$(expr 0)
 
-    until wp db check --quiet
+    echo "Setting up WordPress at $SITE_HOST"
+
+    until wp core install --url="$SITE_HOST" --title="Twenty Twenty-Two Development" --admin_user="admin" --admin_email="admin@example.com" --admin_password="password" --skip-email
     do
     count=$(expr $count + 1)
 
@@ -48,11 +50,7 @@ source ~/.bashrc
 # Install WordPress and activate the plugin/theme.
 cd /var/www/html/
 
-# wait_for_database
-
-echo "Setting up WordPress at $SITE_HOST"
-wp db reset --yes
-wp core install --url="$SITE_HOST" --title="Twenty Twenty-Two Development" --admin_user="admin" --admin_email="admin@example.com" --admin_password="password" --skip-email
+try_setup
 
 echo "Install and activate Gutenberg"
 wp plugin install gutenberg --activate
