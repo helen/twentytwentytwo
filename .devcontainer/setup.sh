@@ -23,11 +23,29 @@ function getTitleFromSlug()
     echo "${___slug[@]^}"
 }
 
+function wait_for_database {
+    count=$(expr 0)
+
+    until wp db check --quiet
+    do
+    count=$(expr $count + 1)
+
+    if [ $count -gt 15 ]; then
+        echo "database server is taking too long, quitting"
+        exit 1
+    fi
+    echo "Waiting for database to be ready"
+    sleep 2
+    done
+}
+
 source ~/.bashrc
 
 # Install dependencies
 # cd /var/www/html/wp-content/${PROJECT_TYPE}s/${SLUG}/
 # npm i && npm run build
+
+wait_for_database
 
 # Install WordPress and activate the plugin/theme.
 cd /var/www/html/
